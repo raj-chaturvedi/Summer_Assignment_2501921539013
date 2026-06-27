@@ -1,0 +1,54 @@
+class Codec {
+
+    int index = 0;
+
+    public String serialize(TreeNode root) {
+
+        StringBuilder sb = new StringBuilder();
+
+        dfs(root, sb);
+
+        return sb.toString();
+    }
+
+    private void dfs(TreeNode root, StringBuilder sb) {
+
+        if (root == null) {
+
+            sb.append("N,");
+            return;
+        }
+
+        sb.append(root.val).append(",");
+
+        dfs(root.left, sb);
+
+        dfs(root.right, sb);
+    }
+
+    public TreeNode deserialize(String data) {
+
+        String[] nodes = data.split(",");
+
+        return build(nodes);
+    }
+
+    private TreeNode build(String[] nodes) {
+
+        if (nodes[index].equals("N")) {
+
+            index++;
+
+            return null;
+        }
+
+        TreeNode root =
+                new TreeNode(Integer.parseInt(nodes[index++]));
+
+        root.left = build(nodes);
+
+        root.right = build(nodes);
+
+        return root;
+    }
+}
